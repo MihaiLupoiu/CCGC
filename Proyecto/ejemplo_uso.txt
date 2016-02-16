@@ -1,0 +1,61 @@
+Frontend
+%CPU %MEM CMD
+97.3 45.9 ./mpi.out 7000
+Compute0
+%CPU %MEM CMD
+96.2  1.3 ./mpi.out 7000
+Compute1
+%CPU %MEM CMD
+98.2  1.3 ./mpi.out 7000
+Compute2
+%CPU %MEM CMD
+97.2  1.3 ./mpi.out 7000
+Compute3
+%CPU %MEM CMD
+98.7  1.3 ./mpi.out 7000
+Compute4
+%CPU %MEM CMD
+ 100  1.4 ./mpi.out 7000
+Compute5
+%CPU %MEM CMD
+98.8  1.3 ./mpi.out 7000
+Compute6
+%CPU %MEM CMD
+97.3  1.3 ./mpi.out 7000
+Compute7
+%CPU %MEM CMD
+97.8  1.3 ./mpi.out 7000
+Compute8
+%CPU %MEM CMD
+97.1  1.3 ./mpi.out 7000
+Compute9
+%CPU %MEM CMD
+98.1  1.3 ./mpi.out 7000
+Compute10
+%CPU %MEM CMD
+97.7  1.4 ./mpi.out 7000
+Compute11
+%CPU %MEM CMD
+97.0  1.3 ./mpi.out 7000
+Compute12
+%CPU %MEM CMD
+97.5  1.3 ./mpi.out 7000
+Compute13
+%CPU %MEM CMD
+98.3  1.3 ./mpi.out 7000
+Compute14
+%CPU %MEM CMD
+97.5  1.4 ./mpi.out 7000
+Compute15
+%CPU %MEM CMD
+97.9  1.3 ./mpi.out 7000
+Compute16
+%CPU %MEM CMD
+98.8  1.3 ./mpi.out 7000
+Compute17
+%CPU %MEM CMD
+98.4  1.4 ./mpi.out 7000
+Compute18
+%CPU %MEM CMD
+97.6  1.4 ./mpi.out 7000
+

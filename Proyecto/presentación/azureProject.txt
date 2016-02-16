@@ -1,0 +1,103 @@
+User: azureuser
+Pass: Patata_123
+
+Equipos:
+
+frontendmihai.cloudapp.net
+compute0
+compute1
+compute2
+compute3
+compute4
+compute5
+compute6
+compute7
+compute8
+compute9
+compute10
+
+compute11
+compute12
+compute13
+compute14
+compute15
+compute16
+compute17
+compute18
+compute19
+
+Azure proporciona máquinas preparadas para funcionar con MPI sobre una red Infiniband
+• Acasi 4€ la hora...
+• Sin embargo, es posible configurar el MPI entre las instancias convencionales.
+• Para ello hay que tener en cuenta los siguientes aspectos
+• Limitaciones de los Puertos públicos.
+• Máxima proximidad.
+• Configuración apropiada.
+
+Sólo es posible abrir 100 puertos públicos en las máquinas de Azure
+• Además, el interfaz es bastante manual e incomodo para rangos de puertos. 
+• MPI es complejo de configurar para que se limite a un rango de puertos.
+• Podemos crear una única entrada DNS pública e incluir varias
+máquinas en el mismo servicio
+• Se crea un “servicio en la nube” en la primera máquina y las demás se asocian a él. 
+• Hay que esperar a que se haya completado la creación de la primera máquina.
+• Además, fijaremos un conjunto de disponibilidad
+• Se encuentran en la misma sub red privada y sin limitaciones de conectividad entre
+ellas.
+• Se alojarán lo més próximo posible en el datacentre.
+• El conjunto de disponibilidad se crea con la primera máquina y la segunda se agrega a él.
+• Las direcciones privadas se pueden consultar en el panel.
+
+
+Configuración
+• Acceso ssh mediante certificados x.509
+ En cualquier máquina Linux realizar los siguientes comandos:
+– ssh-keygen -t dsa
+– openssl req -x509 -key id_dsa -nodes -days 365 -newkey rsa:2048 -out id_dsa.pem
+– El fichero id_dsa deberá estar en el directorio .ssh de las máquinas desde donde se realice la conexión
+» Además, hay que copiar la clave pública (id_dsa.pub) en el fichero .ssh/authorized_keys de todas las máquinas.
+– El fichero id_dsa.pem se incluirá en la creación de las máquinas desde el portal de azure.
+ Todas las máquinas deberán tener el id_dsa copiado con permisos adecuados (0400) en el directorio .ssh
+• Se comprueba con ssh azureuser@maquina
+
+Configuración
+• La primera máquina (p.e. mpimaster) tendrá instalado tanto los binarios de openmpi como el entorno de desarrollo
+sudo apt-get update
+sudo apt-get install openmpi-bin libopenmpi-dev gcc
+• En el resto de máquinas (una en nuestro caso), solamente necesitamos los binarios.
+sudo apt-get install openmpi-bin
+• Creamos un fichero “machinefile” con las IPs privadas (o los nombres sin el dominio) de las máquinas.
+• Compilamos y ejecutamos el ejemplo de poliformaT (mpihello.c) mpicc -o mpihello mpihello.c
+scp mpihello IP_PRIVADA:.
+mpirun -machinefile machinefile -np 2 mpihello
+
+
+=================
+
+azureuser@frontend:~$ ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/azureuser/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/azureuser/.ssh/id_rsa.
+Your public key has been saved in /home/azureuser/.ssh/id_rsa.pub.
+The key fingerprint is:
+59:8a:98:37:33:eb:68:52:c1:bc:88:d0:fd:87:39:00 azureuser@frontend
+The key's randomart image is:
++--[ RSA 2048]----+
+|                 |
+|  E              |
+| . =      .      |
+|. . *o . +       |
+|.. .o=*oS        |
+|. . o.==.        |
+|   .  .o         |
+|  . .o           |
+|   o. .          |
++-----------------+
+azureuser@frontend:~$ cat ~/.ssh/id_rsa.pub | ssh compute0 'cat >> .ssh/authorized_keys'
+
+==========> (Captura 1)
+==========> (Captura 2)
+
+
